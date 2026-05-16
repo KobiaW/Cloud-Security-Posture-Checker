@@ -1,0 +1,28 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "SecureReadOnlyAccess",
+      "Effect": "Allow",
+      "Action": [
+        "s3:GetObject",
+        "s3:ListBucket"
+      ],
+      "Resource": [
+        "arn:aws:s3:::my-secure-bucket",
+        "arn:aws:s3:::my-secure-bucket/reports/*"
+      ],
+      "Principal": {
+        "AWS": "arn:aws:iam::123456789012:role/ReportReaderRole"
+      },
+      "Condition": {
+        "Bool": {
+          "aws:MultiFactorAuthPresent": "true"
+        },
+        "StringEquals": {
+          "aws:SourceVpc": "vpc-0a1b2c3d4e5f"
+        }
+      }
+    }
+  ]
+}
